@@ -39,6 +39,7 @@ def convert_wheel(whl_file: Path, *, exclude=None, with_backup=False, quiet=Fals
 
     whl_dir  = tempfile.mkdtemp()
     whl_path = Path(whl_dir)
+    
 
     try:
         # Extract our zip file temporarily
@@ -72,14 +73,14 @@ def convert_wheel(whl_file: Path, *, exclude=None, with_backup=False, quiet=Fals
                         py_file.unlink()
 
         for member in members:
-            file_path = whl_path/member.filename
+            file_path = whl_path.joinpath(member.filename).resolve().relative_to(whl_path.resolve())
             timestamp = datetime(*member.date_time).timestamp()
             try:
                 os.utime(str(file_path), (timestamp, timestamp))
             except Exception:
                 pass  # ignore errors
 
-        dist_info_path = whl_path/"{}.dist-info".format(dist_info)
+        dist_info_path = whl_path.joinpath("{}.dist-info".format(dist_info)).resolve().relative_to(whl_path.resolve())
         rewrite_dist_info(dist_info_path, exclude=exclude)
 
         # Rezip the file with the new version info
@@ -121,7 +122,7 @@ def rewrite_dist_info(dist_info_path: Path, *, exclude=None):
                     pyc_file = file_dest.with_suffix(".pyc")
                     file_dest = str(pyc_file)
 
-                    pyc_path = whl_path/pyc_file
+                    pyc_path =  whl_path.joinpath(pyc_file).resolve().relative_to(whl_path.resolve())
                     with pyc_path.open("rb") as f:
                         data = f.read()
                     file_hash = HASH_ALGORITHM(data)
