@@ -33,7 +33,7 @@ def convert_wheel(whl_file: Path, *, exclude=None, with_backup=False, quiet=Fals
     if whl_file.suffix != ".whl":
         raise TypeError("File to convert must be a *.whl")
 
-    if exclude: exclude = re.compile(exclude)
+    if exclude: exclude = re.compile(re.escape(exclude))
 
     dist_info = "-".join(whl_file.stem.split("-")[:-3])
 
