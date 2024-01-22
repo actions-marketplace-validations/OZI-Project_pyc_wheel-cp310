@@ -191,5 +191,6 @@ def main(argv=sys.argv[1:]):
                              "the standard output.")
     args = parser.parse_args(argv)
     for whl_file in glob.iglob(args.whl_file):
-        convert_wheel(Path(whl_file), exclude=args.exclude,
+        convert_wheel(Path(whl_file).resolve().relative_to(Path(os.getcwd()).resolve()), exclude=args.exclude,
                       with_backup=args.with_backup, quiet=args.quiet)
+        
