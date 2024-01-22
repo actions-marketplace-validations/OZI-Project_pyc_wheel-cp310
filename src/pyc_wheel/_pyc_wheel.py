@@ -133,7 +133,8 @@ def rewrite_dist_info(dist_info_path: Path, *, exclude=None):
 
     with record_path.open("w", newline="\n") as record:
         csv.writer(record,
-                   lineterminator="\n").writerows(sorted(set(record_data)))
+                   lineterminator="\n",
+                   quoting=csv.QUOTE_ALL).writerows(sorted(set(record_data)))
 
     # Rewrite the wheel info file.
 
