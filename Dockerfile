@@ -1,5 +1,3 @@
-ARG PYTHON_VERSION=3.11
-
 FROM oziproject/supported-python:2023
 
 RUN set -ex
