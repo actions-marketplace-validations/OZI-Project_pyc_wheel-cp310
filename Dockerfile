@@ -1,6 +1,8 @@
 FROM oziproject/supported-python:2023
 
-RUN set -ex
+RUN set -ex \
+  && apt-get update \
+  && apt-get install --no-install-recommends -y git
 
 COPY . .
 
@@ -13,4 +15,4 @@ WORKDIR /pyc_wheel
 COPY action.sh /pyc_wheel/action.sh
 RUN chmod +x /pyc_wheel/action.sh
 
-ENTRYPOINT [ "/pyc_wheel/action.sh" ]
+ENTRYPOINT ["bash", "/pyc_wheel/action.sh" ]
