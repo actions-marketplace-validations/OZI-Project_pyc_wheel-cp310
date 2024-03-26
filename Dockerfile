@@ -1,14 +1,14 @@
+ARG PYTHON_VERSION=3.10
+
 FROM oziproject/supported-python:2023
 
 RUN set -ex \
   && apt-get update \
-  && apt-get install --no-install-recommends -y git
+  && apt-get install --no-install-recommends -y git-lfs
 
 COPY . .
 
-RUN python3.12 -m pip install . && python3.12 -m pip uninstall -y pip
-RUN python3.11 -m pip install . && python3.11 -m pip uninstall -y pip
-RUN python3.10 -m pip install . && python3.10 -m pip uninstall -y pip
+RUN python${PYTHON_VERSION} -m pip install . && python${PYTHON_VERSION} -m pip uninstall -y pip
 
 RUN mkdir /pyc_wheel
 WORKDIR /pyc_wheel

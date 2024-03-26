@@ -25,3 +25,5 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  args:
+    - PYTHON_VERSION=${{ inputs.python-version }}
